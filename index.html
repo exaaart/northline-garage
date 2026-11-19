@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Northline Garage — автосервис</title>
+  <meta name="description" content="NORTHLINE GARAGE — комплексное обслуживание автомобилей: диагностика, ТО, ходовая, электрика и детейлинг. Демонстрационный концепт." />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpath d='M7 24V8l18 16V8' fill='none' stroke='%23ff5f1f' stroke-width='3.2'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <a class="skip" href="#main">К содержимому</a>
+
+  <header class="hdr" id="hdr">
+    <div class="hdr__in">
+      <a class="logo" href="#top" aria-label="Northline Garage, на главную">
+        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M9 31V9l22 22V9" />
+          <path class="logo__line" d="M2 20h7M31 20h7" />
+        </svg>
+        <span class="logo__word">Northline<span>Garage</span></span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Основная навигация">
+        <a href="#about">О сервисе</a>
+        <a href="#services">Услуги</a>
+        <a href="#diagnostics">Диагностика</a>
+        <a href="#gallery">Мастерская</a>
+        <a href="#calculator">Стоимость</a>
+        <a href="#faq">Вопросы</a>
+        <a href="#contacts">Контакты</a>
+        <a class="btn btn--accent nav__cta" href="#booking">Записаться</a>
+      </nav>
+      <a class="btn btn--accent hdr__cta" href="#booking">Записаться</a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Открыть меню">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 1. HERO -->
+    <section class="hero" id="top">
+      <div class="hero__copy">
+        <h1 class="hero__title">
+          <span class="ln"><span>Точность.</span></span>
+          <span class="ln"><span>Технологии.</span></span>
+          <span class="ln ln--sm"><span>Забота о вашем автомобиле</span></span>
+        </h1>
+        <p class="hero__sub">Комплексное обслуживание автомобилей с вниманием к каждой детали.</p>
+        <div class="hero__actions">
+          <a class="btn btn--accent btn--lg" href="#booking">Записаться на обслуживание</a>
+          <a class="btn btn--ghost btn--lg" href="#services">Наши услуги</a>
+        </div>
+        <p class="hero__spec">
+          Мультимарочный сервис для легковых автомобилей и кроссоверов: компьютерная диагностика, плановое ТО, ходовая, электрика и уход за кузовом.
+        </p>
+      </div>
+
+      <div class="stage" id="stage">
+        <canvas id="car-canvas" aria-label="Интерактивная 3D-модель автомобиля. Потяните, чтобы повернуть." role="img"></canvas>
+        <div class="stage__fallback" id="stage-fallback" hidden>
+          <img src="https://images.unsplash.com/photo-1645400379459-f6fd3d963fd4?auto=format&fit=crop&w=1400&q=70" alt="Тёмный спортивный автомобиль в студии" />
+        </div>
+
+        <div class="hotspots" id="hotspots" aria-label="Зоны обслуживания">
+          <button class="hs" data-hs="engine" aria-label="Двигатель и ТО"><span class="hs__dot"></span><span class="hs__label">Двигатель и ТО</span></button>
+          <button class="hs" data-hs="wheel" aria-label="Тормоза и подвеска"><span class="hs__dot"></span><span class="hs__label">Тормоза и подвеска</span></button>
+          <button class="hs" data-hs="cabin" aria-label="Электроника"><span class="hs__dot"></span><span class="hs__label">Электроника</span></button>
+          <button class="hs" data-hs="body" aria-label="Кузов и детейлинг"><span class="hs__dot"></span><span class="hs__label">Кузов и детейлинг</span></button>
+        </div>
+
+        <div class="hs-panel" id="hs-panel" hidden>
+          <button class="hs-panel__close" id="hs-close" aria-label="Закрыть">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" /></svg>
+          </button>
+          <h2 class="hs-panel__title" id="hs-title"></h2>
+          <p class="hs-panel__text" id="hs-text"></p>
+          <button class="link-btn" id="hs-go">Смотреть услуги</button>
+        </div>
+
+        <div class="readout" aria-live="off">
+          <button class="readout__btn" data-nudge="-1" aria-label="Повернуть влево">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" /></svg>
+          </button>
+          <div class="readout__val"><span id="az">000</span>°</div>
+          <button class="readout__btn" data-nudge="1" aria-label="Повернуть вправо">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" /></svg>
+          </button>
+          <span class="readout__hint">Потяните автомобиль, чтобы повернуть</span>
+        </div>
+        <p class="stage__src" id="stage-src">Загрузка 3D-сцены…</p>
+      </div>
+    </section>
+
+    <!-- 2. О КОМПАНИИ -->
+    <section class="sec sec--graphite about" id="about">
+      <div class="wrap about__grid">
+        <h2 class="h2 about__title">Сервис, в котором вы знаете, что происходит с машиной на каждом этапе</h2>
+        <div class="about__text">
+          <p>Northline Garage — концепт современного автосервиса, где ремонт начинается с точного диагноза, а не с замены всего подряд. Мастер объясняет, что нашёл, показывает фото и согласует смету до начала работ.</p>
+          <p>Работаем с легковыми автомобилями и кроссоверами разных марок: от планового ТО до поиска сложных неисправностей электрики.</p>
+        </div>
+      </div>
+      <ul class="wrap factbar">
+        <li><b>Смета до начала работ</b><span>Цена фиксируется после диагностики и вашего согласия</span></li>
+        <li><b>Фото каждого узла</b><span>Отчёт приходит в мессенджер, пока машина на подъёмнике</span></li>
+        <li><b>Старые детали — вам</b><span>Можно увидеть, что именно заменили</span></li>
+        <li><b>Запись онлайн</b><span>Выберите дату и опишите проблему заранее</span></li>
+      </ul>
+    </section>
+
+    <!-- 3. УСЛУГИ -->
+    <section class="sec sec--light services" id="services">
+      <div class="wrap">
+        <div class="sec__head">
+          <h2 class="h2">Основные услуги</h2>
+          <p class="sec__lead">Выберите категорию, чтобы увидеть работы по нужному узлу. Из карточки можно сразу рассчитать стоимость или записаться.</p>
+        </div>
+        <div class="filter" id="filter" role="toolbar" aria-label="Фильтр по категориям"></div>
+        <div class="bento" id="bento" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 4. ДИАГНОСТИКА И ОБСЛУЖИВАНИЕ -->
+    <section class="sec sec--black diag" id="diagnostics">
+      <div class="wrap diag__grid">
+        <figure class="diag__photo">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f?auto=format&fit=crop&w=1200&q=72" alt="Мастер осматривает моторный отсек автомобиля" />
+          <span class="frame frame--tl"></span><span class="frame frame--br"></span>
+        </figure>
+        <div class="diag__body">
+          <h2 class="h2">Диагностика и обслуживание</h2>
+          <div class="tabs" role="tablist" aria-label="Раздел">
+            <button class="tab is-on" role="tab" aria-selected="true" aria-controls="tab-diag" id="t-diag">Что проверяем</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="tab-to" id="t-to" tabindex="-1">ТО по пробегу</button>
+          </div>
+
+          <div class="tabpanel" id="tab-diag" role="tabpanel" aria-labelledby="t-diag">
+            <ul class="checks">
+              <li><b>Электронные блоки</b>Ошибки, адаптации и живые параметры двигателя, коробки, ABS и подушек безопасности.</li>
+              <li><b>Двигатель</b>Компрессия, эндоскопия цилиндров, поиск подсосов воздуха дымогенератором.</li>
+              <li><b>Ходовая часть</b>Люфты, стуки, состояние сайлентблоков и амортизаторов на подъёмнике.</li>
+              <li><b>Тормоза</b>Толщина колодок и дисков, состояние шлангов и тормозной жидкости.</li>
+              <li><b>Электрика</b>Ток утечки, заряд, состояние аккумулятора, генератора и стартера.</li>
+              <li><b>Жидкости и фильтры</b>Уровень, цвет и ресурс масла, антифриза и фильтров.</li>
+            </ul>
+          </div>
+
+          <div class="tabpanel" id="tab-to" role="tabpanel" aria-labelledby="t-to" hidden>
+            <label class="mileage">
+              <span class="mileage__head">Пробег: <output id="km-out">60 000</output> км</span>
+              <input type="range" id="km" min="15000" max="120000" step="15000" value="60000" aria-describedby="km-note" />
+              <span class="mileage__scale" aria-hidden="true"><span>15</span><span>30</span><span>45</span><span>60</span><span>75</span><span>90</span><span>105</span><span>120</span></span>
+            </label>
+            <ul class="to-list" id="to-list"></ul>
+            <p class="note" id="km-note">Ориентир для большинства бензиновых автомобилей. Точный перечень работ определяет регламент производителя вашей модели.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ПОЧЕМУ МЫ -->
+    <section class="sec sec--graphite why" id="why">
+      <div class="wrap">
+        <h2 class="h2 why__title">Почему выбирают этот сервис</h2>
+        <div class="why__grid">
+          <article class="why__item why__item--lead">
+            <h3>Сначала диагноз, потом смета</h3>
+            <p>Не меняем детали «на всякий случай». Каждая работа в смете объяснена, и без вашего согласия мы её не начинаем.</p>
+          </article>
+          <article class="why__item">
+            <h3>Видно каждый этап</h3>
+            <p>Фото и видео узлов до и после работ приходят вам в мессенджер.</p>
+          </article>
+          <article class="why__item">
+            <h3>Запчасти на выбор</h3>
+            <p>Оригинал или проверенный аналог — с понятной разницей в цене и ресурсе.</p>
+          </article>
+          <article class="why__item">
+            <h3>Аккуратность</h3>
+            <p>Защитные чехлы на руль, сиденья и крылья. Машина возвращается такой же чистой.</p>
+          </article>
+          <article class="why__item">
+            <h3>Рекомендации на будущее</h3>
+            <p>При выдаче — список того, что стоит запланировать, с примерными сроками.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. ГАЛЕРЕЯ -->
+    <section class="sec sec--black gallery" id="gallery">
+      <div class="wrap gallery__head">
+        <h2 class="h2">Мастерская и автомобили</h2>
+        <div class="gallery__ctrl">
+          <span class="gallery__count"><span id="g-cur">01</span> / <span id="g-total">00</span></span>
+          <button class="round-btn" id="g-prev" aria-label="Предыдущее фото"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" /></svg></button>
+          <button class="round-btn" id="g-next" aria-label="Следующее фото"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" /></svg></button>
+        </div>
+      </div>
+      <div class="track" id="track" tabindex="0" aria-label="Галерея, листайте горизонтально"></div>
+      <p class="wrap credit">Фотографии: Unsplash. Иллюстративные снимки, не фото конкретной мастерской.</p>
+    </section>
+
+    <!-- 7. ЭТАПЫ -->
+    <section class="sec sec--light process" id="process">
+      <div class="wrap">
+        <div class="sec__head">
+          <h2 class="h2">Как проходит обслуживание</h2>
+          <p class="sec__lead">Шесть шагов от заявки до выдачи. На каждом вы знаете, что происходит и сколько это стоит.</p>
+        </div>
+        <ol class="steps">
+          <li><span class="steps__n">1</span><h3>Заявка</h3><p>Онлайн или по телефону. Подтверждаем время и уточняем симптомы.</p></li>
+          <li><span class="steps__n">2</span><h3>Приёмка</h3><p>Осмотр при вас, фиксируем пробег, комплектацию и состояние кузова.</p></li>
+          <li><span class="steps__n">3</span><h3>Диагностика</h3><p>Находим причину и составляем смету с вариантами запчастей.</p></li>
+          <li><span class="steps__n">4</span><h3>Согласование</h3><p>Вы утверждаете перечень работ. Без этого мы ничего не начинаем.</p></li>
+          <li><span class="steps__n">5</span><h3>Работы</h3><p>Ремонт с фотоотчётом. Дополнительные находки — только после звонка.</p></li>
+          <li><span class="steps__n">6</span><h3>Выдача</h3><p>Показываем заменённые детали и даём рекомендации на будущее.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 8. КАЛЬКУЛЯТОР -->
+    <section class="sec sec--graphite calc" id="calculator">
+      <div class="wrap">
+        <div class="sec__head">
+          <h2 class="h2">Подбор услуги и ориентировочная стоимость</h2>
+          <p class="sec__lead">Расчёт построен на демонстрационных условиях и показывает порядок цен. Реальная стоимость определяется после осмотра автомобиля.</p>
+        </div>
+        <div class="calc__grid">
+          <form class="calc__form" id="calc-form" onsubmit="return false">
+            <fieldset>
+              <legend><span class="lg-n">1</span>Класс автомобиля</legend>
+              <div class="tiles tiles--3" id="calc-class"></div>
+            </fieldset>
+            <fieldset>
+              <legend><span class="lg-n">2</span>Услуга</legend>
+              <div class="tiles tiles--svc" id="calc-svc"></div>
+            </fieldset>
+            <fieldset>
+              <legend><span class="lg-n">3</span>Дополнительно</legend>
+              <div class="checks-inline" id="calc-extra"></div>
+            </fieldset>
+          </form>
+          <aside class="meter" aria-live="polite">
+            <p class="meter__label">Ориентировочно</p>
+            <p class="meter__val" id="calc-val">—</p>
+            <dl class="meter__rows" id="calc-rows"></dl>
+            <p class="meter__warn">Демонстрационный расчёт. Это не прайс-лист автосервиса и не публичная оферта.</p>
+            <button class="btn btn--accent btn--block" id="calc-book">Записаться с этим расчётом</button>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. ЗАПИСЬ -->
+    <section class="sec sec--black booking" id="booking">
+      <div class="wrap booking__grid">
+        <div class="booking__intro">
+          <h2 class="h2">Запись на обслуживание</h2>
+          <p>Оставьте данные автомобиля и опишите, что беспокоит. Мастер перезвонит, уточнит детали и подтвердит время.</p>
+          <ul class="booking__next">
+            <li>Перезвоним в рабочее время и подтвердим запись</li>
+            <li>Подскажем, сколько займёт работа</li>
+            <li>Предупредим, если нужно привезти запчасти или документы</li>
+          </ul>
+        </div>
+
+        <form class="form" id="booking-form" novalidate>
+          <div class="form__row">
+            <label class="field">
+              <span>Имя</span>
+              <input name="name" autocomplete="name" required />
+              <em class="field__err">Укажите, как к вам обращаться</em>
+            </label>
+            <label class="field">
+              <span>Телефон</span>
+              <input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 ___ ___-__-__" required />
+              <em class="field__err">Нужен номер из 10–11 цифр</em>
+            </label>
+          </div>
+          <div class="form__row form__row--3">
+            <label class="field">
+              <span>Марка</span>
+              <input name="make" list="makes" required autocomplete="off" />
+              <em class="field__err">Укажите марку</em>
+            </label>
+            <label class="field">
+              <span>Модель</span>
+              <input name="model" required autocomplete="off" />
+              <em class="field__err">Укажите модель</em>
+            </label>
+            <label class="field">
+              <span>Год выпуска</span>
+              <input name="year" type="number" inputmode="numeric" min="1980" max="2027" />
+              <em class="field__err">Год от 1980 до 2027</em>
+            </label>
+          </div>
+          <datalist id="makes"></datalist>
+          <div class="form__row">
+            <label class="field">
+              <span>Услуга</span>
+              <select name="service" id="f-service">
+                <option value="">Пока не знаю — нужна консультация</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Предпочтительная дата</span>
+              <input name="date" type="date" id="f-date" required />
+              <em class="field__err">Выберите дату, начиная с завтрашней</em>
+            </label>
+          </div>
+          <fieldset class="field slots">
+            <legend>Удобное время</legend>
+            <div class="slots__row">
+              <label><input type="radio" name="slot" value="Утро, 9–12" checked /><span>Утро, 9–12</span></label>
+              <label><input type="radio" name="slot" value="День, 12–16" /><span>День, 12–16</span></label>
+              <label><input type="radio" name="slot" value="Вечер, 16–21" /><span>Вечер, 16–21</span></label>
+            </div>
+          </fieldset>
+          <label class="field">
+            <span>Опишите проблему</span>
+            <textarea name="problem" rows="4" placeholder="Например: стук спереди справа на неровностях, появился после зимы"></textarea>
+          </label>
+          <p class="form__calc" id="f-calc" hidden></p>
+          <label class="consent">
+            <input type="checkbox" name="consent" required />
+            <span>Согласен на обработку данных для связи по этой заявке</span>
+            <em class="field__err">Нужно согласие, чтобы мы могли перезвонить</em>
+          </label>
+          <button class="btn btn--accent btn--lg btn--block" type="submit">Отправить заявку</button>
+          <p class="note">Демонстрационная форма: данные никуда не отправляются.</p>
+        </form>
+
+        <div class="form-done" id="form-done" hidden tabindex="-1">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" /><path d="M14 25l7 7 13-15" /></svg>
+          <h3>Заявка сформирована</h3>
+          <p id="done-text"></p>
+          <button class="btn btn--ghost" id="form-again">Новая заявка</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec sec--light faq" id="faq">
+      <div class="wrap faq__grid">
+        <h2 class="h2">Частые вопросы</h2>
+        <div class="faq__list">
+          <details>
+            <summary>Сколько длится диагностика?</summary>
+            <p>Компьютерная диагностика обычно занимает до часа. Поиск сложной неисправности электрики или двигателя может потребовать больше времени — мастер предупредит заранее.</p>
+          </details>
+          <details>
+            <summary>Как я узнаю итоговую стоимость?</summary>
+            <p>После диагностики мы составляем смету и согласуем её с вами. Если в процессе найдётся что-то ещё, сначала позвоним и только потом продолжим.</p>
+          </details>
+          <details>
+            <summary>Можно приехать со своими запчастями?</summary>
+            <p>Да. Перед установкой проверим совместимость и состояние детали. Условия по такой работе мастер озвучит при приёмке.</p>
+          </details>
+          <details>
+            <summary>Нужно ли записываться заранее?</summary>
+            <p>Лучше записаться: так мы подготовим пост и, если нужно, закажем запчасти. Без записи примем при наличии свободного окна.</p>
+          </details>
+          <details>
+            <summary>Можно оставить автомобиль и забрать вечером?</summary>
+            <p>Да. Отчёт о ходе работ придёт в мессенджер, а когда машина будет готова, мы сообщим.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. КОНТАКТЫ -->
+    <section class="sec sec--graphite contacts" id="contacts">
+      <div class="wrap contacts__grid">
+        <div class="contacts__info">
+          <h2 class="h2">Контакты</h2>
+          <dl class="contacts__list">
+            <div><dt>Адрес</dt><dd>ул. Промышленная, 00, корпус 2</dd></div>
+            <div><dt>Телефон</dt><dd><a href="tel:+70000000000">+7 (000) 000-00-00</a></dd></div>
+            <div><dt>Почта</dt><dd><a href="mailto:hello@northline.example">hello@northline.example</a></dd></div>
+            <div><dt>Режим работы</dt><dd>Ежедневно, 9:00–21:00</dd></div>
+          </dl>
+          <p class="note">Адрес и контакты условные — это демонстрационный проект.</p>
+          <a class="btn btn--accent" href="#booking">Записаться на обслуживание</a>
+        </div>
+        <figure class="map" aria-label="Схема проезда">
+          <svg viewBox="0 0 640 440" role="img" aria-labelledby="map-t">
+            <title id="map-t">Схема проезда: съезд с магистрали, далее по Промышленной улице до въезда в сервис</title>
+            <defs>
+              <pattern id="mgrid" width="32" height="32" patternUnits="userSpaceOnUse">
+                <path d="M32 0H0V32" fill="none" stroke="currentColor" stroke-opacity=".07" />
+              </pattern>
+            </defs>
+            <rect width="640" height="440" fill="url(#mgrid)" />
+            <g class="map__blocks">
+              <rect x="40" y="40" width="150" height="110" /><rect x="220" y="40" width="130" height="110" />
+              <rect x="40" y="250" width="150" height="150" /><rect x="220" y="250" width="130" height="150" />
+              <rect x="400" y="40" width="200" height="110" />
+              <rect x="400" y="300" width="90" height="100" /><rect x="510" y="300" width="90" height="100" />
+              <rect class="map__site" x="400" y="222" width="228" height="56" />
+            </g>
+            <g class="map__roads">
+              <path class="map__main" d="M0 195H640" />
+              <path d="M205 0V440" /><path d="M375 0V440" /><path d="M375 287H640" />
+            </g>
+            <path class="map__route" d="M0 195H375V250H418" />
+            <circle class="map__pin" cx="430" cy="250" r="9" />
+            <text x="20" y="183" class="map__txt">Магистраль</text>
+            <text x="388" y="302" class="map__txt" transform="rotate(90 388 302)">ул. Промышленная</text>
+            <text x="450" y="246" class="map__txt map__txt--site">Northline Garage</text>
+            <text x="450" y="264" class="map__txt">Въезд со двора, ворота 2</text>
+          </svg>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <!-- 11. FOOTER -->
+  <footer class="ftr">
+    <div class="wrap ftr__grid">
+      <a class="logo" href="#top" aria-label="Northline Garage, наверх">
+        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M9 31V9l22 22V9" /><path class="logo__line" d="M2 20h7M31 20h7" /></svg>
+        <span class="logo__word">Northline<span>Garage</span></span>
+      </a>
+      <nav class="ftr__nav" aria-label="Навигация в подвале">
+        <a href="#services">Услуги</a><a href="#diagnostics">Диагностика</a><a href="#calculator">Стоимость</a>
+        <a href="#booking">Запись</a><a href="#faq">Вопросы</a><a href="#contacts">Контакты</a>
+      </nav>
+      <p class="ftr__note">Демонстрационный концепт сайта. Название, цены, адрес и контакты условные. Фотографии — Unsplash. 3D-модель — процедурная концепт-модель без брендинга.</p>
+      <p class="ftr__copy">© 2026 Northline Garage</p>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lb-close" aria-label="Закрыть">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" /></svg>
+    </button>
+    <img id="lb-img" alt="" />
+    <p id="lb-cap"></p>
+  </dialog>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
